@@ -1,0 +1,33 @@
+{
+    "manifest_version": 3,
+    "name": "BC Parks automated backcountry booking",
+    "version": "1.2",
+    "description": "Repeatedly check availability and automatically book BC Parks backcountry camping",
+    "permissions": [
+        "storage", 
+        "activeTab", 
+        "scripting" 
+    ],
+    "host_permissions":[
+        "http://*/*",
+        "https://*/*"
+    ],
+    "background": {
+        "service_worker": "background.js"
+    },
+    "action": {
+        "default_popup": "html/popup.html",
+        "default_icon":{
+            "16": "images/icon.png",
+            "32": "images/icon.png",
+            "48": "images/icon.png",
+            "128":"images/icon.png"
+        }
+    },
+    "icons": {
+        "16": "images/icon.png",
+        "32": "images/icon.png",
+        "48": "images/icon.png",
+        "128":"images/icon.png"
+    }
+}

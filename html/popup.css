@@ -1,0 +1,9 @@
+body {
+  width: 300px;
+  font-size: 14px;
+}
+
+button, label, select {
+  width: 100%;
+  margin: 5px 0;
+}

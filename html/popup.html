@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <link rel="stylesheet" href="./popup.css">
+</head>
+
+<body>
+    <div id='extention_pageOpen' style="display: block;">
+        <h2>Select automation options</h2>
+        <label for='extention_selectCamp'>Select campground:</label>
+        <select id='extention_selectCamp'>
+
+        </select>
+        <label for='extention_selectTime'>How long to try?</label>
+        <select id='extention_selectTime'>
+            <option value="15">15 minutes</option>
+            <option value="30">30 minutes</option>
+            <option value="45">45 minutes</option>
+            <option value="60">60 minutes</option>
+        </select>
+        <button id="extention_startBooking">Start</button>
+    </div>
+    <div id='extention_pageNotOpen' style="display: none;">
+        <h1>No Page open</h1>
+        <ul>
+            <li><a href="https://www.discovercamping.ca/BCCWeb/Facilities/TrailRiverCampingSearchView.aspx"
+                    target="_blank">1. Please
+                    open BC Discovery Camping page for backcountry bookings</a></li>
+            <li>2. Sign in to with your login and password</li>
+            <li>3. Select backcountry place, date and desired number of tent pads</li>
+            <li>4. Press search button and then return to this extention</li>
+        </ul>
+    </div>
+    <div id='extention_userNotLogged' style="display: none;">
+        <h1>User not logged in</h1>
+        <p>Please sign in with your login and password prior to using this extention</p>
+    </div>
+    <div id='extention_noPlaceSelected' style="display: none;">
+        <h1>No park selected</h1>
+        <p>Please select BC Provincial park, desired booking date,
+            number of tent pads and number of hikers. Then press the search button.</p>
+    </div>
+    <div id="extention_notFound">
+        <h1>Nothing found</h1>
+        <p>Please try again later</p>
+    </div>
+    <div id="extention_timerDiv">
+        <p>Executing. Time left: <span id='extention_timer'></span></p>
+        <button id="extention_stopBooking">Stop</button>
+    </div>
+    <script src="../popup.js"></script>
+</body>
+
+</html>
