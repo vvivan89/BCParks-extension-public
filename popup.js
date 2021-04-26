@@ -3,12 +3,15 @@ chrome.tabs
     .query({ url: "https://*.discovercamping.ca/BCCWeb/Facilities/TrailRiverCampingSearchView.aspx*" })
     .then(([tab]) => {
         //first, hide all elements to ease up the process
-        document.getElementById("extention_pageNotOpen").style.display = "none"
-        document.getElementById("extention_userNotLogged").style.display = "none"
-        document.getElementById("extention_noPlaceSelected").style.display = "none"
-        document.getElementById("extention_pageOpen").style.display = "none"
-        document.getElementById("extention_notFound").style.display = "none"
-        document.getElementById("extention_timerDiv").style.display = "none"
+        const ids = [
+            'extention_pageNotOpen',
+            'extention_userNotLogged',
+            'extention_noPlaceSelected',
+            'extention_pageOpen',
+            'extention_notFound',
+            'extention_timerDiv'
+        ]
+        ids.forEach(item=>{display(item,'none')})
 
         if (tab) {
             //if page is open check if user is logged
@@ -22,7 +25,7 @@ chrome.tabs
                 custName => {
                     if (!custName[0]?.result) {
                     //if user is not logged, show notification
-                    document.getElementById("extention_userNotLogged").style.display="block"
+                    display("extention_userNotLogged","block")
                     } else {
                         //if user is logged, check selection of place and dates
                         //this is done by checking the presence of red/green boxes with ids like "div_00"
@@ -34,20 +37,20 @@ chrome.tabs
                             firstDate => {
                                 if (!firstDate[0]?.result) {
                                     //if no dates, show notification to user
-                                    document.getElementById("extention_noPlaceSelected").style.display="block"
+                                    display("extention_noPlaceSelected","block")
                                 } else {
                                     //if all checks are good, show controls to start booking
-                                    document.getElementById("extention_pageOpen").style.display = "block"
+                                    display("extention_pageOpen","block")
 
                                     //also, check if we need to set additional parameters
                                     chrome.storage.sync.get(
                                         ['exec', 'time', 'found', 'div'],
                                         ({ exec, time, found, div }) => {
                                             if (exec) {
-                                                document.getElementById("extention_timerDiv").style.display = "block"
+                                                display("extention_timerDiv","block")
                                                 document.getElementById("extention_timer").innerText = time
                                             } else if (!found && time) {
-                                                document.getElementById("extention_notFound").style.display = "block"
+                                                display("extention_notFound", "block")
                                                 chrome.storage.sync.set({ time: null })
                                             }
                                             if (div) {
@@ -91,22 +94,22 @@ chrome.tabs
             );
         } else {
             //if page is not open, show notification with the next steps
-            document.getElementById("extention_pageNotOpen").style.display="block"
+            display("extention_pageNotOpen", "block")
         }
     })
 
 //listen to stop button press (stop timer execution and hide countdown)
 let stopBooking = document.getElementById("extention_stopBooking");
 stopBooking.addEventListener("click", () => {
-    chrome.storage.sync.set({ stop:true })
-    document.getElementById("extention_timerDiv").style.display = "none"
+    chrome.storage.sync.set({ stop: true })
+    display("extention_timerDiv", "none")    
 })
 
 // Listen to start button press
 let startBooking = document.getElementById("extention_startBooking");
 startBooking.addEventListener("click", async () => {
     //if nothing was found during previous attempt, hide notification
-    document.getElementById("extention_notFound").style.display = "none"
+    display("extention_notFound", "none")  
     
     //get parameters from user input: camping (represented by "div") and time to try
     const div = document.getElementById("extention_selectCamp").value
@@ -117,7 +120,7 @@ startBooking.addEventListener("click", async () => {
     chrome.runtime.sendMessage({})
     
     //display timer
-    document.getElementById("extention_timerDiv").style.display = "block"
+    display("extention_timerDiv", "block")  
 });
 
 //this listener updates popup window when parameters in storage change
@@ -127,7 +130,7 @@ chrome.storage.onChanged.addListener(
         if (changes.hasOwnProperty('exec')) {
             const { newValue } = changes.exec
             if (!newValue) {
-                document.getElementById("extention_timerDiv").style.display = "none"
+                display("extention_timerDiv", "none")  
                 chrome.storage.sync.set({ div:null });
             }
         }
@@ -139,11 +142,11 @@ chrome.storage.onChanged.addListener(
             //and ensure that countdown is visible
             if (newValue) {
                 document.getElementById("extention_timer").innerText = newValue
-                document.getElementById("extention_timerDiv").style.display = "block"
+                display("extention_timerDiv", "block")  
 
             //if time updated to null, this means execution is finished, so hide the countdown
             } else {
-                document.getElementById("extention_timerDiv").style.display = "none"
+                display("extention_timerDiv", "none")  
             }
         }
     }
@@ -155,4 +158,5 @@ function getCampings() {
     const camps = Array.from(document.getElementsByClassName("first_td_table_one"))
     return camps.map(item => item.innerText.trim())
 }
+const display = (id,mode)=> document.getElementById(id).style.display = mode
 
