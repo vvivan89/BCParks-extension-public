@@ -16,6 +16,8 @@ during summer weekends are almost zero. This is my solution to beat the crowd, a
   * Select the particular campground, if there are several options
   * Select the time that the extension will try to book a site 
   * Press start
+
+![Screenshot](https://lh3.googleusercontent.com/9l3MjSd_H43GH-OkqzYmy_SjDt2o7ilwONWHk_ytCTRDBBjG3GoHsr8bFGppSJzoWazHgtfliUaSJ7V3X0zSlQ-L=w640-h400-e365-rj-sc0x00ffffff)
   
 # The process
 Extension runs in the background and presses "Search" button every second in an attempt to catch released places. 
